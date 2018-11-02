@@ -1,26 +1,42 @@
 import React, { Component } from "react";
-import logo from "./logo.svg";
 import "./App.css";
 
+import { TasksContext } from './context/tasksContext';
+import AddTask from './componants/AddTask';
+
 class App extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            task: {
+                color: 'red',
+                text: 'hej'
+            }
+        };
+
+        this.changeColor = this.changeColor.bind(this);
+    }
+
+    changeColor() {
+        let color = this.state.color === 'red' ? 'blue' : 'red';
+        this.setState({
+            task: {
+                color: color
+            }
+        });
+    }
+
+
     render() {
+        const {Provider} = TasksContext;
         return (
-            <div className="App">
-                <header className="App-header">
-                    <img src={logo} className="App-logo" alt="logo" />
-                    <p>
-                        Edit <code>src/App.js</code> and save to reload.
-                    </p>
-                    <a
-                        className="App-link"
-                        href="https://reactjs.org"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        Learn React
-                    </a>
-                </header>
-            </div>
+            <Provider value={this.state.task}>
+                <div className="App">
+                    <AddTask />
+                </div>
+                <button onClick={this.changeColor}>Click</button>
+            </Provider>
         );
     }
 }
