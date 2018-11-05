@@ -2,41 +2,36 @@ import React, { Component } from "react";
 import "./App.css";
 
 import { TasksContext } from './context/tasksContext';
-import AddTask from './componants/AddTask';
+import Button from './containers/Button';
+import TasksList from './componants/TasksList';
 
 class App extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            task: {
-                color: 'red',
-                text: 'hej'
-            }
+            tasks: []
         };
 
-        this.changeColor = this.changeColor.bind(this);
+        this.addTask = this.addTask.bind(this);
     }
 
-    changeColor() {
-        let color = this.state.color === 'red' ? 'blue' : 'red';
+    addTask() {
         this.setState({
-            task: {
-                color: color
-            }
-        });
+            tasks: [...this.state.tasks, 'nowy'] 
+        })
     }
 
 
     render() {
         const {Provider} = TasksContext;
         return (
-            <Provider value={this.state.task}>
-                <div className="App">
-                    <AddTask />
-                </div>
-                <button onClick={this.changeColor}>Click</button>
-            </Provider>
+            <div className="App">
+                <Button onClick={this.addTask}>Add task</Button>
+                <Provider value={this.state.tasks}>
+                    <TasksList />
+                </Provider>
+            </div>
         );
     }
 }

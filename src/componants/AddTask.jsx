@@ -1,18 +1,17 @@
 import React, { Component } from "react";
-import { TasksContext } from '../context/tasksContext';
-import Task from "./Task";
+
+import Button from '../containers/Button';
 
 class AddTask extends Component {
 
     render() {
-        const { Consumer } = TasksContext;
         return (
-            <Consumer>
-                {color => <p>{ color }</p>}
-            </Consumer>
+            <Button onClick={this.props.clickAction}>Dodaj</Button>
         )
     }
 }
+
+
 
 
 export default AddTask;

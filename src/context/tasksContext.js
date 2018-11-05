@@ -1,6 +1,5 @@
 import React from 'react';
 
-export const TasksContext = React.createContext({
-    color: 'red',
-    text: 'hej hej'
-});
+export const tasks = [];
+
+export const TasksContext = React.createContext(tasks);
