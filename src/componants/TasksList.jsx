@@ -1,17 +1,18 @@
 import React, { Component } from "react";
 import { TasksContext } from '../context/tasksContext';
+import Task from '../containers/Taks';
 
 class TasksList extends Component {
 
+    static contextType = TasksContext;
     render() {
-        let tasks = this.context;
-        console.log(tasks);
+        console.log(this.context);
         return (
             <React.Fragment>
                 <h3>Tasks</h3>
-                {tasks.map((task, index) => (
-                    <div key={index}>taks</div>
-                ))}
+                <TasksContext.Consumer>
+                    {value => value.map((val, index) => (<Task key={index} value={val}/>))}
+                </TasksContext.Consumer>
             </React.Fragment>
         )
     }

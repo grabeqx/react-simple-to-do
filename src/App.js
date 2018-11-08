@@ -1,37 +1,36 @@
 import React, { Component } from "react";
 import "./App.css";
 
-import { TasksContext } from './context/tasksContext';
-import Button from './containers/Button';
+import { TasksContext, tasks } from './context/tasksContext';
+import AddTask from './componants/AddTask';
 import TasksList from './componants/TasksList';
 
 class App extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
-            tasks: []
+            tasks: tasks
         };
-
-        this.addTask = this.addTask.bind(this);
+        this.submitTask = this.submitTask.bind(this);
     }
 
-    addTask() {
+    submitTask(value) {
+        console.log(value);
         this.setState({
-            tasks: [...this.state.tasks, 'nowy'] 
+            tasks: [...this.state.tasks, value]
         })
+        console.log(this.state);
     }
-
 
     render() {
         const {Provider} = TasksContext;
         return (
-            <div className="App">
-                <Button onClick={this.addTask}>Add task</Button>
-                <Provider value={this.state.tasks}>
+            <Provider value={this.state.tasks}>
+                <div className="App">
+                    <AddTask submitTask={this.submitTask}>task</AddTask>
                     <TasksList />
-                </Provider>
-            </div>
+                </div>
+            </Provider>
         );
     }
 }
