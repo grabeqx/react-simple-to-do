@@ -5,7 +5,7 @@ const Task = (props) => {
         <div className="task-container">
             <h4>{props.value.taskName}</h4>
             <p>{props.value.taskDesc}</p>
-            <button onClick={props.onClick} data-task-id={props.value.taskId}>Remove</button>
+            <button onClick={props.onClick} className="remove-button" data-task-id={props.value.taskId}>Remove</button>
         </div>
     )
 }
