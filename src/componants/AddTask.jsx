@@ -8,14 +8,13 @@ class AddTask extends Component {
         super(props);
         this.state = {
             taskName: '',
-            taskDesc: ''
+            taskDesc: '',
+            taskId: ''
         };
         this.changeName = this.changeName.bind(this);
         this.changeDesc = this.changeDesc.bind(this);
         this.submitTask = this.submitTask.bind(this);
     }
-
-    static contextType = TasksContext;
 
     changeName(e) {
         this.setState({
@@ -29,26 +28,36 @@ class AddTask extends Component {
         })
     }
 
-    submitTask() {
-        this.props.submitTask(this.state);
+    clearState() {
         this.setState({
             taskName: '',
-            taskDesc: ''
-        });
+            taskDesc: '',
+            taskId: ''
+        })
+    }
+
+    submitTask(callback) {
+        this.setState({
+            taskId: new Date().getTime()
+        }, () => {
+            callback(this.state);
+            this.clearState();
+        })
     }
 
     render() {
         return (
-            <React.Fragment>
-                <input onChange={this.changeName} value={this.state.taskName}></input>
-                <textarea onChange={this.changeDesc} value={this.state.taskDesc}></textarea>
-                <Button onClick={this.submitTask}>{this.props.children}</Button>
-            </React.Fragment>
+            <div className="add-task-container">
+                <h3>Add task</h3>
+                <input onChange={this.changeName} value={this.state.taskName} placeholder="Task name"></input>
+                <textarea onChange={this.changeDesc} value={this.state.taskDesc} placeholder="Task description"></textarea>
+                <TasksContext.Consumer>
+                 {({addTask}) => <Button onClick={() => this.submitTask(addTask)}>{this.props.children}</Button>}
+                </TasksContext.Consumer>
+            </div>
         )
     }
 }
-
-
 
 
 export default AddTask;

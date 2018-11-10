@@ -3,31 +3,39 @@ import "./App.css";
 
 import { TasksContext, tasks } from './context/tasksContext';
 import AddTask from './componants/AddTask';
-import TasksList from './componants/TasksList';
+import TasksList from './containers/TasksList';
 
 class App extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            tasks: tasks
-        };
-        this.submitTask = this.submitTask.bind(this);
-    }
+        this.addTask = (newTask) => {
+            this.setState({
+                tasks: [...this.state.tasks, newTask]
+            })
+        }
+        this.removeTask = (e) => {
+            let index = this.state.tasks.findIndex(task => task.taskId === parseInt(e.target.dataset.taskId));
+            this.setState({
+                tasks: [
+                    ...this.state.tasks.slice(0, index),
+                    ...this.state.tasks.slice(index + 1)
+                ]
+            })
+        }
 
-    submitTask(value) {
-        console.log(value);
-        this.setState({
-            tasks: [...this.state.tasks, value]
-        })
-        console.log(this.state);
+        this.state = {
+            tasks: tasks,
+            addTask: this.addTask,
+            removeTask: this.removeTask
+        };
     }
 
     render() {
         const {Provider} = TasksContext;
         return (
-            <Provider value={this.state.tasks}>
+            <Provider value={this.state}>
                 <div className="App">
-                    <AddTask submitTask={this.submitTask}>task</AddTask>
+                    <AddTask>Add task</AddTask>
                     <TasksList />
                 </div>
             </Provider>
